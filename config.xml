@@ -20,8 +20,7 @@
     <content src="index.html" />
 
     <!-- Customize your app and platform with the preference element. -->
-    <preference name="DisallowOverscroll"         value="true" /> 
-    <preference name="ANDROID_SUPPORT_V4_VERSION" value="true" />
+    <preference name="DisallowOverscroll"         value="true" />
 
     <!-- Define a specific version of PhoneGap to build into your app. -->
     <!-- <preference name="phonegap-version"       value="cli-6.0.0" /> -->
@@ -47,6 +46,9 @@
 	<gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <!-- Define app icon and splashscreen for each platform. -->
     <platform name="android">
+	<preference name="android-targetSdkVersion" value="23"/>
+        <preference name="android-minSdkVersion" value="16"/>
+    <preference name="ANDROID_SUPPORT_V4_VERSION" value="true" />
         <icon   src="www/res/icon/android/drawable-ldpi-icon.png"               density="ldpi" />
         <icon   src="www/res/icon/android/drawable-mdpi-icon.png"               density="mdpi" />
         <icon   src="www/res/icon/android/drawable-hdpi-icon.png"               density="hdpi" />
