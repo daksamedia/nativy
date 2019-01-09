@@ -2,8 +2,8 @@
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
-        xmlns:gap = "http://daksamedia.id/native-app"
-        id        = "com.daksamedia.native.app"
+        xmlns:gap = "http://daksamedia.id/nativeapp"
+        id        = "com.daksamedia.nativy"
         version   = "1.0.0">
 
     <name>Native App</name>
