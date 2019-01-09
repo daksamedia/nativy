@@ -46,8 +46,8 @@
 	<gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <!-- Define app icon and splashscreen for each platform. -->
     <platform name="android">
-	<preference name="android-targetSdkVersion" value="23"/>
-        <preference name="android-minSdkVersion" value="16"/>
+	<preference name="android-targetSdkVersion" value="25"/>
+        <preference name="android-minSdkVersion" value="23"/>
     <preference name="ANDROID_SUPPORT_V4_VERSION" value="true" />
         <icon   src="www/res/icon/android/drawable-ldpi-icon.png"               density="ldpi" />
         <icon   src="www/res/icon/android/drawable-mdpi-icon.png"               density="mdpi" />
@@ -70,6 +70,7 @@
     </platform>
 
     <platform name="ios">
+	<preference name="UseSwiftLanguageVersion" value="3.2" />
         <icon   src="www/res/icon/ios/icon.png"                         platform="ios" width="57"   height="57" />
         <icon   src="www/res/icon/ios/icon@2x.png"                      platform="ios" width="114"  height="114" />
         <icon   src="www/res/icon/ios/icon-40.png"                      platform="ios" width="40"   height="40" />
