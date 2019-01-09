@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' gap:; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Natively Cordova</title>
+</head>
+
+<body style="width:100%;">
+	<div class="menu-option" style="text-align:left; width:100%; position:relative; padding:10px">
+		<h2 style="border-bottom:1px black solid; padding-bottom:5px;">QR & Barcode Scanner</h2>
+		
+		<button onclick='scan_qr()'>
+			Start QR / Barcode
+		</button>
+	</div>
+	
+	<div class="menu-option" style="text-align:left; width:100%; position:relative; padding:10px">
+		<h2 style="border-bottom:1px black solid; padding-bottom:5px;">Finger Scanner</h2>
+		
+		<button onclick='check_fingscanner()'>
+			Check Finger Scanner
+		</button>
+		
+		<button onclick='scan_finger()'>
+			Scan Finger
+		</button>
+	</div>
+	
+	<div class="menu-option" style="text-align:left; width:100%; position:relative; padding:10px">
+		<h2 style="border-bottom:1px black solid; padding-bottom:5px;">Social Share</h2>
+		
+		<button onclick='share_now()'>
+			Share Social Now
+		</button>
+		
+		
+	</div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+		
+		/* Scan Barcode / QR Code */
+		function scan_qr(){
+			cordova.plugins.barcodeScanner.scan(
+			  function (result) {
+				  alert("We got a barcode\n" +
+						"Result: " + result.text + "\n" +
+						"Format: " + result.format + "\n" +
+						"Cancelled: " + result.cancelled);
+			  },
+			  function (error) {
+				  alert("Scanning failed: " + error);
+			  }
+		   );
+		}
+		
+		
+		/* Fingerscan */
+		function check_fingscanner(){
+			Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
+		}
+		
+		
+		function scan_finger(){		
+				Fingerprint.show({
+				clientId: "Fingerprint-Demo", clientSecret: "password" //Only necessary for Android 
+			}, successCallback, errorCallback);
+		}
+		
+		function isAvailableSuccess(result) {
+		  /*
+		  result depends on device and os. 
+		  iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+		  */
+		  alert("Fingerprint available");
+		}
+
+		function isAvailableError(message) {
+		  alert(message);
+		}
+		
+		function successCallback(){
+		  alert("Authentication successfull");
+		}
+
+		function errorCallback(err){
+		  alert("Authentication invalid " + err);
+		}
+		
+		/* Social Share */
+		var options = {
+		  message: 'BOOST YOUR DIGITAL ACTS BY DAKSAMEDIA !', // not supported on some apps (Facebook, Instagram)
+		  subject: 'BOOST YOUR BUSINESS', // fi. for email
+		  url: 'https://www.daksamedia.id/',
+		  chooserTitle: 'Cordova Natively', // Android only, you can override the default share sheet title,
+		  appPackageName: 'com.daksamedia.native.app' // Android only, you can provide id of the App you want to share with
+		};
+
+		var onSuccess = function(result) {
+		  console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+		  console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+		};
+
+		var onError = function(msg) {
+		  console.log("Sharing failed with message: " + msg);
+		};
+		
+		function share_now(){
+			window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+		}
+		
+		
+    </script>
+</body>
+
+</html>
